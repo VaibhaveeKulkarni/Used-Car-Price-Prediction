@@ -92,10 +92,10 @@ if st.button("Predict Selling Price"): # This button triggers the prediction
 
         # Placeholder for full column names (replace with actual columns from X_train during development if model.feature_names_in_ is not available)
         # For this example, we assume model.feature_names_in_ correctly provides the column order
-        expected_columns = list(model.feature_names_in_)
-
-if len(expected_columns) == 0:
-    st.error("No feature names found in the model.")
+       if hasattr(model, "feature_names_in_"):
+    expected_columns = list(model.feature_names_in_)
+else:
+    st.error("The trained model does not contain feature names. Please retrain and save the model again.")
     st.stop()
             st.error("Could not determine expected feature columns from the model. Please ensure the model object has 'feature_names_in_'.")
             st.stop()
