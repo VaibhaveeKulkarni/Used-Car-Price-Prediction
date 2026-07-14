@@ -90,18 +90,19 @@ if st.button("Predict Selling Price"): # This button triggers the prediction
         # The `model.feature_names_in_` attribute can give us this if it's available, otherwise we need to rely on the context.
         # From the context, the feature names were derived from X_train.columns.
 
-        # Placeholder for full column names (replace with actual columns from X_train during development if model.feature_names_in_ is not available)
-        # For this example, we assume model.feature_names_in_ correctly provides the column order
-       if hasattr(model, "feature_names_in_"):
-    expected_columns = list(model.feature_names_in_)
-else:
-    st.error("The trained model does not contain feature names. Please retrain and save the model again.")
-    st.stop()
-            st.error("Could not determine expected feature columns from the model. Please ensure the model object has 'feature_names_in_'.")
+               # Get the expected feature columns
+        if hasattr(model, "feature_names_in_"):
+            expected_columns = list(model.feature_names_in_)
+        else:
+            st.error("The model does not contain feature names.")
             st.stop()
 
-        # Initialize an empty DataFrame with all expected columns and fill with 0s
-        processed_input_df = pd.DataFrame(0, index=[0], columns=expected_columns)
+        # Initialize an empty DataFrame
+        processed_input_df = pd.DataFrame(
+            0,
+            index=[0],
+            columns=expected_columns
+        )
 
         # Fill in numerical values
         for col in input_df_numerical.columns:
