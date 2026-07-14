@@ -4,18 +4,17 @@ import joblib
 import numpy as np
 
 # --- 1. Load the trained model and OneHotEncoder ---
-# Ensure these files are in the same directory as your app.py
 try:
-    model = joblib.load('car_price_model.pkl')
-    ohe = joblib.load('encoder.pkl')
+    model = joblib.load("car_price_decision_tree_model.pkl")
+    ohe = joblib.load("encoder.pkl")   # Change this if your encoder has a different name
     st.success("Model and encoder loaded successfully!")
-except FileNotFoundError:
-    st.error("Error: Model or encoder file not found. Make sure 'car_price_model.pkl' and 'encoder.pkl' are in the same directory.")
-    st.stop() # Stop the app if files are not found
-except Exception as e:
-    st.error(f"An error occurred while loading files: {e}")
+except FileNotFoundError as e:
+    st.error(f"File not found: {e.filename}")
+    st.info("Make sure both the model and encoder files are uploaded to the GitHub repository.")
     st.stop()
-
+except Exception as e:
+    st.error(f"Error loading model or encoder: {e}")
+    st.stop()
 # --- 2. Streamlit App Layout ---
 st.set_page_config(page_title="Used Car Price Predictor", layout="centered")
 st.title("🚗 Used Car Price Prediction")
